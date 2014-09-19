@@ -53,6 +53,17 @@ namespace GOMA {
 			memcpy(v_, C.v_, sz_ * sizeof(T*));				
 		}
 
+		ptr_vector_t(ptr_vector_t* C):
+		v_(NULL),
+		sz_(C->sz_),
+		msz_(C->msz_),
+		buff_sz_(C->buff_sz_)
+		{
+			v_ = new T* [msz_];
+			
+			memcpy(v_, C->v_, sz_ * sizeof(T*));				
+		}
+
 		ptr_vector_t(int sz):
 		v_(NULL),
 		sz_(sz),

@@ -10,7 +10,7 @@ namespace GOMA {
 	matind_(NULL),
 	matval_(NULL)
 	{}
-
+	
 	sparse_matrix_t::~sparse_matrix_t(void)
 	{
 		clean();

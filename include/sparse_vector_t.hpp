@@ -49,7 +49,7 @@ namespace GOMA {
 		
 		void set(int pos, double val);
 		
-	private:
+	protected:
 		void clean(void);
 		void build(int nz);
 			
