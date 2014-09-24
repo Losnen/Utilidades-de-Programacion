@@ -66,6 +66,20 @@ namespace GOMA {
 		
 	}
 
+	sparse_vector_t::sparse_vector_t(sparse_vector_t* sm):
+	nz_(sm->nz_),	
+	max_sz_(sm->max_sz_),
+	val_(NULL),
+	inx_(NULL)	
+	{
+		val_ = new double [max_sz_];
+		inx_ = new int    [max_sz_];
+		
+		memcpy(val_, sm->val_, nz_ * sizeof(double));
+		memcpy(inx_, sm->inx_, nz_ * sizeof(int));
+		
+	}
+
 	sparse_vector_t::~sparse_vector_t(void) 
 	{
 		clean();

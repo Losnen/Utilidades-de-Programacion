@@ -35,6 +35,7 @@ namespace GOMA {
 		sparse_vector_t(int nz, int* inx, double* val);
 		sparse_vector_t(void);	
 		sparse_vector_t(const sparse_vector_t&);
+		sparse_vector_t(sparse_vector_t*);
 
 		virtual ~sparse_vector_t(void);
 
