@@ -94,7 +94,7 @@ namespace GOMA {
 		
 		virtual ~ptr_vector_t(void)
 		{
-			soft_clean();
+			s_clean();
 		}	
 		
 		void clean(void)
@@ -110,15 +110,25 @@ namespace GOMA {
 				delete [] v_;
 				v_ = NULL;
 			}
+			sz_ = 0;
+			msz_ = 0;
 		}	
 
-		void soft_clean(void)
+		void s_clean(void)
 		{
 			if (v_){
-						
+				
 				delete [] v_;
 				v_ = NULL;
-			}			
+			}
+			
+			sz_ = 0;
+			msz_ = 0;
+		}
+
+		void set_empty(void)
+		{	
+			sz_ = 0;
 		}
 		
 		void create(int sz)
