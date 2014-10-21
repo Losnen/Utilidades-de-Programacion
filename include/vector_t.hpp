@@ -84,6 +84,18 @@ namespace GOMA {
 			}
 		}	
 		
+		void clean(void){
+
+			if (v_){
+				delete [] v_;
+				v_ = NULL;
+			}
+
+			sz_ = 0;
+			msz_ = 0;
+			buff_sz_ = 0;
+		}
+		
 		void init(T val)
 		{
 			T* v = v_;
@@ -184,12 +196,25 @@ namespace GOMA {
 			return v_;
 		}	
 		
+		vector_t& operator=(const vector_t& C)
+		{
+			sz_ = C.sz_;
+			msz_ = C.msz_;
+			buff_sz_ = C.buff_sz_;
+		
+			v_ = new T [msz_];
+			
+			memcpy(v_, C.v_, sz_ * sizeof(T));
+
+			return *this;
+		}
+		
 	#ifdef _DEBUG
 		virtual void write(ostream& os)
 		{
 			for(int i = 0; i < sz_; i ++){
 				if (!(i % IT_PER_LINE)) os << endl;
-				os << setw(WIDE_OUTPUT)<< v_[i] << " ";
+				//os << setw(WIDE_OUTPUT)<< v_[i] << " ";
 			}
 		}
 		
