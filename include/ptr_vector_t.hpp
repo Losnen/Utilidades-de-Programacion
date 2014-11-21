@@ -259,7 +259,8 @@ namespace GOMA {
 		{
 			return v_;
 		}	
-			
+		
+
 	};
 
 }

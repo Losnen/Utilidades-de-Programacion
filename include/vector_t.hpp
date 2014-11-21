@@ -112,6 +112,33 @@ namespace GOMA {
 			sz_ = 0;
 		}
 		
+		void resize(int new_sz, T val)
+		{
+			if (new_sz <= msz_){
+				
+				for(int i = sz_; i < new_sz; i++)
+					v_[i] = val;
+				
+				sz_ = new_sz;				
+			}
+			else{
+				
+				T* aux = new T [new_sz + buff_sz_];
+				
+				memcpy(aux, v_, sz_ * sizeof(T));
+				
+				for(int i = sz_; i < new_sz; i++)
+					aux[i] = val;
+				
+				
+				sz_ = new_sz;
+				msz_ = sz_ + buff_sz_;
+				
+				delete [] v_;
+				v_ = aux;
+			}
+		}
+		
 		void resize(int new_sz)
 		{
 			if (new_sz <= msz_)
@@ -128,7 +155,7 @@ namespace GOMA {
 				delete [] v_;
 				v_ = aux;
 			}
-		}
+		}		
 		
 		void push_back(T it)
 		{
