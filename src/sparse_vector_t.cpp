@@ -211,41 +211,49 @@ namespace GOMA {
 		
 		int* a_i_ptr = inx_;
 		double * a_v_ptr = val_;
-		const int* e_a_i_ptr = inx_ + nz_ - 1;
+		const int* e_a_i_ptr = a_i_ptr + nz_;
 
 		int* b_i_ptr = si->inx_;
 		double * b_v_ptr = si->val_;
-		const int* e_b_i_ptr = si->inx_ + si->nz_ - 1;
+		const int* e_b_i_ptr = b_i_ptr + si->nz_;
 
 		double scalprod = 0;
 		bool fin = false;
+		
+		//cout << "ENTRANDO" << endl;
 
 		do {
+			
+			//cout << "UNO: "<< (*a_i_ptr) << endl;
+			//cout << "DOS: " <<  (*b_i_ptr) << endl;
 			
 			if ((*a_i_ptr) == (*b_i_ptr)) {
 
 				scalprod += (*a_v_ptr)*(*b_v_ptr);
 
-				if ((a_i_ptr != e_a_i_ptr) && (b_i_ptr != e_b_i_ptr)) {
-					a_i_ptr++;
-					a_v_ptr++;
-					b_i_ptr++;
-					b_v_ptr++;
-				} else fin = true;
+				a_i_ptr++;
+				a_v_ptr++;
+				b_i_ptr++;
+				b_v_ptr++;
+
+				if ((a_i_ptr == e_a_i_ptr) || (b_i_ptr == e_b_i_ptr)) 
+					fin = true;
 
 			} else if ((*a_i_ptr) < (*b_i_ptr)) {
 
-				if (a_i_ptr != e_a_i_ptr) {
-					a_i_ptr++;
-					a_v_ptr++;
-				} else fin = true;
+				a_i_ptr++;
+				a_v_ptr++;				
+				
+				if (a_i_ptr == e_a_i_ptr) 
+					fin = true;
 
 			} else {
 
-				if (b_i_ptr != e_b_i_ptr) {
-					b_i_ptr++;
-					b_v_ptr++;
-				} else fin = true;
+				b_i_ptr++;
+				b_v_ptr++;
+				
+				if (b_i_ptr == e_b_i_ptr) 
+					fin = true;
 			}
 
 		} while (!fin);
@@ -277,6 +285,33 @@ namespace GOMA {
 
 		return scalprod;
 	}    	
+		
+	double sparse_vector_t::scal_prod(double* v, int sz) {
+
+		if (nz_ == 0)
+			return 0.0;
+		
+		int*    a_i_ptr = inx_;
+		double* a_v_ptr = val_;
+
+		double scalprod = 0;
+		int i = 0;
+
+		while (i < nz_) {
+			
+			const int inx = *a_i_ptr;
+			
+			if (inx < sz)
+				scalprod += (*a_v_ptr)*(v[inx]);
+
+			a_i_ptr++;
+			a_v_ptr++;
+				
+			i++;
+		}
+
+		return scalprod;
+	} 		
 		
 	void sparse_vector_t::set(int pos, double val)
 	{

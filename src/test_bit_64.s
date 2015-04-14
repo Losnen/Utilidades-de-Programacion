@@ -18,7 +18,7 @@ test_bit_64:
  leaq   (%rdi, %rax, 8), %rbx   # Calcula la posición dentro del array
  movq   (%rbx), %rcx         # Carga la posición en el registro cx
 
- btq    %rdx, %rbx           # Pregunta por el bit
+ btq    %rdx, %rcx           # Pregunta por el bit
 
  movq   $1, %rax             # Establece a 1 el acumulador si
  jc     is_set               # Salta al final si el carry está a 1

@@ -112,6 +112,15 @@ namespace GOMA {
 			sz_ = 0;
 		}
 		
+		virtual void clear(T val)
+		{
+			sz_ = 0;
+			
+			//DEBUG
+			for(int i = 0; i < msz_; i++)
+				v_[i] = val;
+		}		
+		
 		void resize(int new_sz, T val)
 		{
 			if (new_sz <= msz_){
@@ -176,7 +185,7 @@ namespace GOMA {
 			std::sort(v_, v_ + sz_);
 		}	
 		
-		inline void set(int pos, T it)
+		void set(int pos, T it)
 		{
 	#ifdef _DEBUG
 			assert(pos < sz_);
@@ -185,7 +194,16 @@ namespace GOMA {
 			v_[pos] = it;
 		}
 		
-		inline T get(int pos) const
+		 T& get(int pos)
+		{
+	#ifdef _DEBUG
+			assert(pos < sz_);
+	#endif
+
+			return v_[pos];
+		}		
+		
+		 T get(int pos) const
 		{
 	#ifdef _DEBUG
 			assert(pos < sz_);
@@ -194,7 +212,7 @@ namespace GOMA {
 			return v_[pos];
 		}	
 		
-		inline T operator[](int pos) const
+		T operator[](int pos) const
 		{
 	#ifdef _DEBUG
 			assert(pos < sz_);
@@ -203,7 +221,7 @@ namespace GOMA {
 			return v_[pos];		
 		}
 		
-		inline T& operator[](int pos)
+		T& operator[](int pos)
 		{
 	#ifdef _DEBUG
 			assert(pos < sz_);
@@ -213,12 +231,12 @@ namespace GOMA {
 		}	
 		
 		
-		inline int get_sz(void) const
+		int get_sz(void) const
 		{
 			return sz_;
 		}		
 		
-		inline T* get_v(void) const
+		T* get_v(void) const
 		{
 			return v_;
 		}	
@@ -228,7 +246,12 @@ namespace GOMA {
 			sz_ = C.sz_;
 			msz_ = C.msz_;
 			buff_sz_ = C.buff_sz_;
-		
+			
+			if (v_){
+				delete [] v_;
+				v_ = NULL;
+			}
+			
 			v_ = new T [msz_];
 			
 			memcpy(v_, C.v_, sz_ * sizeof(T));
@@ -237,12 +260,14 @@ namespace GOMA {
 		}
 		
 	#ifdef _DEBUG
-		virtual void write(ostream& os)
+		virtual void write(ostream& os) const
 		{
 			for(int i = 0; i < sz_; i ++){
-				if (!(i % IT_PER_LINE)) os << endl;
-				//os << setw(WIDE_OUTPUT)<< v_[i] << " ";
+				if (!(i % IT_PER_LINE))  os << endl;
+				//os << v_[i] << " ";
 			}
+			
+			os.flush();
 		}
 		
 		ostream& operator<<(ostream& os)

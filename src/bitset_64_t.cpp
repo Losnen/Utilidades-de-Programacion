@@ -85,7 +85,7 @@ namespace GOMA {
 		return card;
 	}
 
-	inline void bitset_64_t::clear(void) {	
+	void bitset_64_t::clear(void) {	
 		memset(block_, 0x0, sz_ * sizeof(block_t));
 	}
 
@@ -93,7 +93,7 @@ namespace GOMA {
 		clean();
 	}
 
-	inline void bitset_64_t::insert(int i) {
+	void bitset_64_t::insert(int i) {
 		set_bit_64(block_, i);		
 	}
 
@@ -123,12 +123,12 @@ namespace GOMA {
 		}
 	}
 
-	inline void bitset_64_t::remove(int i) {
+	void bitset_64_t::remove(int i) {
 
 		reset_bit_64(block_, i);
 	}
 
-	inline bool bitset_64_t::contains(int i) {
+	bool bitset_64_t::contains(int i) {
 		
 		return test_bit_64(block_, i);
 	}

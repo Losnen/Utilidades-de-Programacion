@@ -43,6 +43,7 @@ namespace GOMA {
 		void set(int nz, int* inx, double* val);
 
 		double scal_prod(double* v);
+		double scal_prod(double* v, int sz);
 		double scal_prod(sparse_vector_t& si);
 		double scal_prod(sparse_vector_t* si);
 
