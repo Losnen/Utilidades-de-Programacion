@@ -148,9 +148,9 @@ namespace GOMA {
 			}
 		}
 		
-		void resize(int new_sz)
+		virtual void resize(int new_sz)
 		{
-			if (new_sz <= msz_)
+			if (new_sz < msz_)
 				sz_ = new_sz;
 			else{
 				
@@ -160,8 +160,9 @@ namespace GOMA {
 				
 				sz_ = new_sz;
 				msz_ = sz_ + buff_sz_;
-				
-				delete [] v_;
+                
+                if (v_)				
+                    delete [] v_;
 				v_ = aux;
 			}
 		}		
@@ -257,6 +258,21 @@ namespace GOMA {
 			memcpy(v_, C.v_, sz_ * sizeof(T));
 
 			return *this;
+		}
+		
+		void copy(const vector_t& C)
+		{
+			clear();
+			resize(C.sz_);
+			memcpy(v_, C.v_, sz_ * sizeof(T));
+		}		
+
+		void move(vector_t& C)
+		{
+			clear();
+			resize(C.sz_);
+			memcpy(v_, C.v_, sz_ * sizeof(T));
+			C.clear();
 		}
 		
 	#ifdef _DEBUG

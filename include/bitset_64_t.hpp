@@ -15,10 +15,10 @@
 #include <cstdint>
 
 
-extern "C" void set_bit_64  (int64_t*, int i);
-extern "C" void reset_bit_64(int64_t*, int i);
-extern "C" bool test_bit_64 (int64_t*, int i);
-extern "C" bool find_bit_64 (int64_t*, int* pos);
+extern "C" void set_bit_64  (void*, int i);
+extern "C" void reset_bit_64(void*, int i);
+extern "C" bool test_bit_64 (void*, int i);
+extern "C" bool find_bit_64 (void*, int* pos);
 
 
 #define BITSET_BLOCK_SIZE 64
@@ -39,6 +39,8 @@ namespace GOMA {
 		bitset_64_t(const bitset_64_t& bs);
 
 		~bitset_64_t(void);
+
+		void init(int max);
 
 		void insert(int i);
 		void insert(const bitset_64_t& bs);
@@ -69,6 +71,44 @@ namespace GOMA {
 		void clean(void);
 	};
 	 
+	class bitset_128_t {
+	public:
+		block_t* block_;
+
+	public:
+		bitset_128_t(void);
+		bitset_128_t(const bitset_128_t& bs);
+
+		~bitset_128_t(void);
+
+		void init(int max);
+
+		void insert(int i);
+		void insert(const bitset_128_t& bs);
+		
+		void remove(int i);
+		void remove(const bitset_128_t& bs);
+		
+		bool contains(int i);
+		bool contains(const bitset_128_t& a);
+		
+		void clear(void);
+		
+		void op_intersec(const bitset_128_t& bsj, bitset_128_t& result);
+		void op_union   (const bitset_128_t& bsj, bitset_128_t& result);
+		void op_minus   (const bitset_128_t& bsj, bitset_128_t& result);
+		
+		int cardinality(void);
+		
+	#ifdef _DEBUG	
+		void write(std::ostream&);
+	#endif	
+		
+		bool operator==(bitset_128_t& bs);	
+		void set(const bitset_128_t& bs);	
+
+	};     
+     
 	#define END_BITSET_ITERATOR -1
 	  
 	class bitset_64_iterator_t {

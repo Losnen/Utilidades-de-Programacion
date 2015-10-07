@@ -64,10 +64,14 @@ namespace GOMA {
         sll_item_t* aux = NULL;
 
         while (inicio_ != NULL) {
+			
             aux = inicio_;
             inicio_ = inicio_->next_;
-            aux->clean();
-            delete aux;
+			
+			if (aux){
+				aux->clean();
+				delete aux;				
+			}
         }
 
         size_ = 0;

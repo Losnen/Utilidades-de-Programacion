@@ -21,8 +21,8 @@ test_bit_64:
  btq    %rdx, %rcx           # Pregunta por el bit
 
  movq   $1, %rax             # Establece a 1 el acumulador si
- jc     is_set               # Salta al final si el carry está a 1
+ jc     is_ok               # Salta al final si el carry está a 1
  movq   $0, %rax             # En caso contrario retorna cero
-is_set:
+is_ok:
  ret
 

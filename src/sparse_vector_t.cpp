@@ -275,6 +275,8 @@ namespace GOMA {
 
 		while (i < nz_) {
 			
+            //cout << *a_i_ptr << endl;
+            
 			scalprod += (*a_v_ptr)*(v[*a_i_ptr]);
 
 			a_i_ptr++;
